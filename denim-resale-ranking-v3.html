@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メンズデニム せどり完全版 v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060a10;
+  --bg-card: #0d1218;
+  --bg-card-h: #111a24;
+  --bg-glass: rgba(255,255,255,0.03);
+  --bdr: rgba(255,255,255,0.06);
+  --gold: #c8a84e;
+  --gold-b: #e8c84e;
+  --gold-d: rgba(200,168,78,0.12);
+  --copper: #b87333;
+  --cream: #f0e8d4;
+  --txt: #d0c8b8;
+  --txt-d: rgba(208,200,184,0.5);
+  --txt-f: rgba(208,200,184,0.28);
+  --grn: #66bb6a; --grn-d: rgba(102,187,106,0.12);
+  --org: #ffa726; --org-d: rgba(255,167,38,0.12);
+  --blu: #42a5f5; --blu-d: rgba(66,165,245,0.12);
+  --pur: #ab47bc; --pur-d: rgba(171,71,188,0.12);
+  --red: #ef5350;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--txt);font-family:'Noto Sans JP',sans-serif;font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(255,255,255,.005) 1px,rgba(255,255,255,.005) 2px),repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(255,255,255,.003) 1px,rgba(255,255,255,.003) 2px);pointer-events:none;z-index:0;}
+.pg{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:16px 10px 80px;}
+
+/* HERO */
+.hero{text-align:center;padding:32px 16px 24px;margin-bottom:18px;}
+.hero-label{font-family:'Oswald';font-size:9px;font-weight:300;letter-spacing:7px;text-transform:uppercase;color:var(--txt-f);margin-bottom:8px;}
+.hero h1{font-family:'Oswald';font-size:26px;font-weight:700;letter-spacing:2px;color:var(--gold);line-height:1.25;}
+.hero h1 small{display:block;font-size:13px;font-weight:300;color:var(--txt-d);letter-spacing:3px;margin-top:4px;}
+.hero-sub{font-size:10px;color:var(--txt-f);margin-top:10px;letter-spacing:.5px;}
+.hero-badge{display:inline-flex;align-items:center;gap:4px;margin-top:12px;font-size:9px;padding:4px 12px;border-radius:20px;background:var(--gold-d);color:var(--gold);border:1px solid rgba(200,168,78,.2);letter-spacing:1px;}
+
+/* STRATEGY */
+.strat{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px;}
+.strat-i{padding:10px;border-radius:8px;font-size:10px;line-height:1.5;}
+.strat-i b{display:block;font-size:11px;margin-bottom:2px;}
+.s-r{background:var(--grn-d);} .s-r b{color:var(--grn);}
+.s-p{background:var(--org-d);} .s-p b{color:var(--org);}
+.s-h{background:var(--pur-d);} .s-h b{color:var(--pur);}
+.s-n{background:var(--blu-d);} .s-n b{color:var(--blu);}
+
+/* FILTER */
+.frow{display:flex;gap:5px;overflow-x:auto;padding:0 0 10px;margin-bottom:6px;scrollbar-width:none;}
+.frow::-webkit-scrollbar{display:none;}
+.fbtn{flex-shrink:0;font-size:10px;font-weight:500;padding:5px 13px;border-radius:20px;border:1px solid var(--bdr);background:transparent;color:var(--txt-d);cursor:pointer;transition:.2s;white-space:nowrap;}
+.fbtn.on{background:var(--gold-d);border-color:var(--gold);color:var(--gold);}
+
+/* SECTION */
+.sec{margin-bottom:24px;}
+.sec-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:0 4px;}
+.sec-ico{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.sec-t{font-family:'Oswald';font-size:13px;font-weight:600;letter-spacing:2px;color:var(--cream);}
+
+/* CARD */
+.cd{background:var(--bg-card);border:1px solid var(--bdr);border-radius:10px;margin-bottom:7px;overflow:hidden;transition:.2s;cursor:pointer;}
+.cd:hover{background:var(--bg-card-h);}
+.cd-top{display:flex;align-items:center;padding:11px 12px;gap:9px;}
+.rk{font-family:'Oswald';font-weight:700;font-size:19px;min-width:26px;text-align:center;color:var(--txt-f);}
+.rk.g{color:var(--gold-b);text-shadow:0 0 10px rgba(232,200,78,.2);}
+.cd-i{flex:1;min-width:0;}
+.bn{font-weight:700;font-size:13px;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.be{font-family:'Oswald';font-size:9px;font-weight:300;color:var(--txt-f);letter-spacing:1.5px;margin-top:1px;}
+.ms{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;}
+.m{font-size:9px;font-weight:500;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.05);color:var(--txt);white-space:nowrap;}
+.cd-m{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.tb{font-size:8px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;}
+.t-r{background:var(--grn-d);color:var(--grn);} .t-p{background:var(--org-d);color:var(--org);}
+.t-h{background:var(--pur-d);color:var(--pur);} .t-n{background:var(--blu-d);color:var(--blu);}
+.bs{display:flex;gap:2px;}
+.b{width:4px;height:13px;border-radius:1px;background:rgba(255,255,255,.07);}
+.b.on{background:var(--grn);} .b.on.mid{background:var(--org);} .b.on.lo{background:var(--blu);}
+.chv{font-size:9px;color:var(--txt-f);transition:transform .3s;}
+.cd.open .chv{transform:rotate(180deg);}
+
+/* DETAIL */
+.cd-d{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;padding:0 12px 0 47px;}
+.cd.open .cd-d{max-height:900px;padding:0 12px 14px 47px;}
+.ds{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;}
+.st{padding:5px 7px;background:var(--bg-glass);border-radius:4px;}
+.sl{font-size:8px;color:var(--txt-f);letter-spacing:.5px;}
+.sv{font-size:11px;font-weight:700;color:var(--cream);margin-top:1px;}
+.dn{font-size:10.5px;line-height:1.7;color:var(--txt);padding:9px;background:var(--bg-glass);border-left:2px solid var(--copper);border-radius:0 4px 4px 0;margin-bottom:8px;}
+.dt{font-size:9.5px;color:var(--gold);padding:6px 9px;background:var(--gold-d);border-radius:4px;line-height:1.6;margin-bottom:10px;}
+.dt::before{content:'💡 ';}
+
+/* IMAGE & LINK BUTTONS */
+.link-row{display:flex;gap:6px;flex-wrap:wrap;}
+.lbtn{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:6px 12px;border-radius:6px;text-decoration:none;transition:.2s;border:1px solid var(--bdr);}
+.lbtn:hover{transform:translateY(-1px);}
+.lbtn-img{background:linear-gradient(135deg,rgba(66,165,245,.12),rgba(66,165,245,.04));color:var(--blu);border-color:rgba(66,165,245,.25);}
+.lbtn-mer{background:linear-gradient(135deg,rgba(239,83,80,.12),rgba(239,83,80,.04));color:var(--red);border-color:rgba(239,83,80,.25);}
+.lbtn-auc{background:linear-gradient(135deg,rgba(255,167,38,.12),rgba(255,167,38,.04));color:var(--org);border-color:rgba(255,167,38,.25);}
+.lbtn-ico{font-size:13px;}
+
+/* TIPS */
+.tips{background:linear-gradient(135deg,rgba(200,168,78,.06),rgba(200,168,78,.01));border:1px solid rgba(200,168,78,.1);border-radius:10px;padding:18px 14px;margin-top:28px;}
+.tips h3{font-family:'Oswald';font-size:14px;font-weight:600;color:var(--gold);letter-spacing:2px;margin-bottom:12px;}
+.tip{margin-bottom:10px;padding-left:14px;position:relative;font-size:11px;line-height:1.7;}
+.tip::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--copper);}
+.tip strong{color:var(--cream);}
+
+.footer{text-align:center;padding:20px 14px;font-size:8px;color:var(--txt-f);line-height:1.8;margin-top:20px;}
+
+@media(max-width:480px){
+  .hero h1{font-size:22px;}
+  .strat{grid-template-columns:1fr;}
+  .ds{grid-template-columns:1fr;}
+  .link-row{flex-direction:column;}
+  .lbtn{justify-content:center;}
+}
+</style>
+</head>
+<body>
+<div class="pg">
+
+<div class="hero">
+  <div class="hero-label">Definitive Edition v3</div>
+  <h1>メンズデニム せどり完全版<small>BRAND × MODEL × IMAGE 2026</small></h1>
+  <div class="hero-sub">📷 各カードに「実物画像」「メルカリ相場」「Aucfan相場」リンク付き</div>
+  <div class="hero-badge">🖼️ タップで画像・相場を即チェック</div>
+</div>
+
+<div class="strat">
+  <div class="strat-i s-r"><b>🔄 回転重視</b>Levi's 501/505, EDWIN 503, Lee 101Z, Wrangler → 薄利でも即売れ</div>
+  <div class="strat-i s-p"><b>💰 粗利重視</b>EVISU, 桃太郎, FULLCOUNT, SAMURAI, WAREHOUSE → 高単価</div>
+  <div class="strat-i s-h"><b>👑 ハイブランド</b>DSQUARED2, AMIRI, サンローラン, JACOB COHEN → 一撃利益</div>
+  <div class="strat-i s-n"><b>🎯 ニッチ</b>A.P.C., RRL, RESOLUTE, COMOLI, KURO → 競合少・目利き</div>
+</div>
+
+<div class="frow">
+  <button class="fbtn on" onclick="fa()">ALL</button>
+  <button class="fbtn" onclick="fc('r')">🔄 回転</button>
+  <button class="fbtn" onclick="fc('p')">💰 粗利</button>
+  <button class="fbtn" onclick="fc('h')">👑 ハイブラ</button>
+  <button class="fbtn" onclick="fc('n')">🎯 ニッチ</button>
+</div>
+
+<!-- ======== ROTATE ======== -->
+<div class="sec" data-c="r">
+<div class="sec-h"><div class="sec-ico" style="background:var(--grn-d);color:var(--grn);">🔄</div><div class="sec-t">ROTATION — 回転重視</div></div>
+
+<div class="cd" data-c="r" onclick="tg(this)"><div class="cd-top">
+  <div class="rk g">1</div>
+  <div class="cd-i"><div class="bn">リーバイス 501</div><div class="be">LEVI'S 501</div>
+    <div class="ms"><span class="m">501XX</span><span class="m">BIG E</span><span class="m">66前期/後期</span><span class="m">赤耳</span></div></div>
+  <div class="cd-m"><span class="tb t-r">回転◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥500〜¥30,000+</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥3,000〜¥500,000+</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">1〜7日（即売れ多発）</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">せどりの絶対王者。現行品でも回転◎、ヴィンテージは利幅◎◎。ボタン裏刻印（524/555等）・赤耳・紙パッチ有無・BIG E判別が利益を左右。ブラックデニムの先染め/後染めも高騰中。USA製は球数減少→価格上昇トレンド。</div>
+  <div class="dt">ボタン裏の工場コード・ケアタグ印字を商品説明に正確記載で閲覧数と落札価格が跳ね上がる</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Levi%27s+501+vintage+%E8%B5%A4%E8%80%B3+BIG+E+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=Levi%27s+501+%E8%B5%A4%E8%80%B3&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+    <a class="lbtn lbtn-auc" href="https://aucfan.com/search1/?q=Levi%27s+501+%E8%B5%A4%E8%80%B3&o=t1" target="_blank" rel="noopener"><span class="lbtn-ico">📊</span>Aucfan相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="r" onclick="tg(this)"><div class="cd-top">
+  <div class="rk g">2</div>
+  <div class="cd-i"><div class="bn">リーバイス 505 / 502 / 517</div><div class="be">LEVI'S 505 / 502 / 517</div>
+    <div class="ms"><span class="m">505 ジップフライ</span><span class="m">502 テーパード</span><span class="m">517 ブーツカット</span></div></div>
+  <div class="cd-m"><span class="tb t-r">回転◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥300〜¥5,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥2,000〜¥50,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜10日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★☆☆☆</div></div>
+  </div>
+  <div class="dn">505は太めシルエットがトレンドにマッチし価格高騰中。517はY2K・ブーツカット復権で再注目。502テーパードは型番検索されやすく万人受け。いずれもUSA製が狙い目。501に比べ競合が少ない「穴場」。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Levi%27s+505+517+%E8%89%B2%E8%90%BD%E3%81%A1+vintage+USA%E8%A3%BD&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=Levi%27s+505+USA%E8%A3%BD&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+    <a class="lbtn lbtn-auc" href="https://aucfan.com/search1/?q=Levi%27s+517+%E3%83%96%E3%83%BC%E3%83%84%E3%82%AB%E3%83%83%E3%83%88&o=t1" target="_blank" rel="noopener"><span class="lbtn-ico">📊</span>Aucfan相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="r" onclick="tg(this)"><div class="cd-top">
+  <div class="rk g">3</div>
+  <div class="cd-i"><div class="bn">エドウィン</div><div class="be">EDWIN 503 / 505</div>
+    <div class="ms"><span class="m">503 レギュラー</span><span class="m">E50313</span><span class="m">505</span></div></div>
+  <div class="cd-m"><span class="tb t-r">回転◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on mid"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥300〜¥2,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥1,500〜¥8,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜7日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★☆☆☆☆</div></div>
+  </div>
+  <div class="dn">仕入れ最容易。薄利多売の軸。503レギュラーストレートが鉄板。国産・定番・サイズ流通の広さが武器。マーガレット・ハウエルコラボなど別注品は高値になることも。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=EDWIN+503+%E3%83%87%E3%83%8B%E3%83%A0+%E6%97%A5%E6%9C%AC%E8%A3%BD&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=EDWIN+503&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="r" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">4</div>
+  <div class="cd-i"><div class="bn">リー</div><div class="be">LEE 101Z / 200</div>
+    <div class="ms"><span class="m">101Z</span><span class="m">101B</span><span class="m">200 / 205</span></div></div>
+  <div class="cd-m"><span class="tb t-r">回転○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on mid"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥300〜¥3,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥2,000〜¥20,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★☆☆☆</div></div>
+  </div>
+  <div class="dn">101Zはジップフライの象徴モデル、ジェームズ・ディーン愛用で知名度◎。サイド黒タグ・センター赤タグのヴィンテージは高利益。200番台はLevi'sより安く仕入れやすく利益率を高めやすい隠れた狙い目。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Lee+101Z+%E3%83%87%E3%83%8B%E3%83%A0+%E3%83%A9%E3%82%A4%E3%83%80%E3%83%BC%E3%82%B9&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=Lee+101Z&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="r" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">5</div>
+  <div class="cd-i"><div class="bn">ラングラー</div><div class="be">WRANGLER 13MWZ</div>
+    <div class="ms"><span class="m">13MWZ</span><span class="m">11MWZ</span><span class="m">ランチャー</span></div></div>
+  <div class="cd-m"><span class="tb t-r">回転○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on mid"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥300〜¥2,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥1,500〜¥15,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★☆☆☆☆</div></div>
+  </div>
+  <div class="dn">カウボーイ・ウエスタン需要で根強い。13MWZはブランド代表で説明しやすい。ブロークンデニム特有の色落ちにファン多し。仕入れ単価最安クラスで初心者に最適。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Wrangler+13MWZ+%E3%83%87%E3%83%8B%E3%83%A0+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=Wrangler+13MWZ&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+</div>
+
+<!-- ======== PROFIT ======== -->
+<div class="sec" data-c="p">
+<div class="sec-h"><div class="sec-ico" style="background:var(--org-d);color:var(--org);">💰</div><div class="sec-t">PROFIT — 粗利重視・国産レプリカ</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">6</div>
+  <div class="cd-i"><div class="bn">エヴィス</div><div class="be">EVISU #2000</div>
+    <div class="ms"><span class="m">#2000 No.1/No.2</span><span class="m">カモメペイント</span><span class="m">YAMANEタグ</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥2,000〜¥15,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥8,000〜¥60,000+</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜7日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">カモメ一目瞭然で写真映え◎。海外ラッパー着用で再燃、eBay含め高値安定。初期「YAMANE」タグ・No.1デニムが特に狙い目。カモメの種類（手描き/プリント/刺繍）で価格差大。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=EVISU+%E3%82%AB%E3%83%A2%E3%83%A1+%E3%83%87%E3%83%8B%E3%83%A0+No.1+YAMANE&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=EVISU+%E3%82%AB%E3%83%A2%E3%83%A1+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+    <a class="lbtn lbtn-auc" href="https://aucfan.com/search1/?q=EVISU+%E3%82%AB%E3%83%A2%E3%83%A1+%E3%83%87%E3%83%8B%E3%83%A0&o=t1" target="_blank" rel="noopener"><span class="lbtn-ico">📊</span>Aucfan相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">7</div>
+  <div class="cd-i"><div class="bn">リーバイス ビンテージクロージング</div><div class="be">LEVI'S VINTAGE CLOTHING (LVC)</div>
+    <div class="ms"><span class="m">1947</span><span class="m">1954</span><span class="m">1966 復刻</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥5,000〜¥20,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥15,000〜¥80,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">非常に速い</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★☆</div></div>
+  </div>
+  <div class="dn">メルカリ売却日数が極めて短い。熱心なコレクター層が積極購入。日本製モデルは特に高値。復刻でもヴィンテージディテール忠実再現のため代替需要を吸収。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Levi%27s+Vintage+Clothing+LVC+1947+501+%E5%BE%A9%E5%88%BB&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=LVC+%E3%83%AA%E3%83%BC%E3%83%90%E3%82%A4%E3%82%B9+%E3%83%93%E3%83%B3%E3%83%86%E3%83%BC%E3%82%B8&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">8</div>
+  <div class="cd-i"><div class="bn">桃太郎ジーンズ</div><div class="be">MOMOTARO JEANS</div>
+    <div class="ms"><span class="m">0105SP 出陣</span><span class="m">0905SP</span><span class="m">二本線</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥5,000〜¥15,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥12,000〜¥35,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">岡山デニム代表格。出陣二本線が特にアイコニック。定価が高く中古でも値崩れしにくい。色落ちが美しい個体は高値取引。海外ファンからの評価も高い。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=%E6%A1%83%E5%A4%AA%E9%83%8E%E3%82%B8%E3%83%BC%E3%83%B3%E3%82%BA+0105SP+%E5%87%BA%E9%99%A3+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=%E6%A1%83%E5%A4%AA%E9%83%8E%E3%82%B8%E3%83%BC%E3%83%B3%E3%82%BA+%E5%87%BA%E9%99%A3&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">9</div>
+  <div class="cd-i"><div class="bn">フルカウント</div><div class="be">FULLCOUNT 1101</div>
+    <div class="ms"><span class="m">1101</span><span class="m">1108</span><span class="m">ジンバブエコットン</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥3,000〜¥12,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥10,000〜¥30,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">ジンバブエコットン使用の最高級レプリカ。芸能人着用で知名度◎。1101は代表ストレート。穿き込んだ色落ち個体にも需要あり。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=FULLCOUNT+1101+%E3%82%B8%E3%83%B3%E3%83%90%E3%83%96%E3%82%A8%E3%82%B3%E3%83%83%E3%83%88%E3%83%B3+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=FULLCOUNT+1101&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">10</div>
+  <div class="cd-i"><div class="bn">サムライジーンズ</div><div class="be">SAMURAI JEANS S5000VX</div>
+    <div class="ms"><span class="m">S5000VX</span><span class="m">S3000VX 零大戦</span><span class="m">ヘビーオンス</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥3,000〜¥10,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥8,000〜¥30,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">14日〜</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">ヘビーオンスの代表格。無骨な色落ちを好む愛好家が多い。S5000VXがブランド基幹モデル。マイナーサイズでもマニア層に刺されば高値。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=%E3%82%B5%E3%83%A0%E3%83%A9%E3%82%A4%E3%82%B8%E3%83%BC%E3%83%B3%E3%82%BA+S5000VX+%E8%89%B2%E8%90%BD%E3%81%A1+%E3%83%98%E3%83%93%E3%83%BC%E3%82%AA%E3%83%B3%E3%82%B9&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=%E3%82%B5%E3%83%A0%E3%83%A9%E3%82%A4%E3%82%B8%E3%83%BC%E3%83%B3%E3%82%BA+S5000VX&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">11</div>
+  <div class="cd-i"><div class="bn">ウエアハウス / シュガーケーン</div><div class="be">WAREHOUSE / SUGAR CANE</div>
+    <div class="ms"><span class="m">WH 1001XX</span><span class="m">DD-1001XX</span><span class="m">SC41947</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥3,000〜¥10,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥8,000〜¥30,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">14日〜</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">WH DDシリーズは高額。シュガーケーン1947モデルは501XX復刻文脈で指名買い。コアファン層が支え値崩れしにくい。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=WAREHOUSE+1001XX+%E3%83%87%E3%83%8B%E3%83%A0+%E8%89%B2%E8%90%BD%E3%81%A1+%E3%82%BB%E3%83%AB%E3%83%93%E3%83%83%E3%82%B8&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=WAREHOUSE+1001XX&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="p" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">12</div>
+  <div class="cd-i"><div class="bn">ドゥニーム / ビッグジョン</div><div class="be">DENIME / BIG JOHN</div>
+    <div class="ms"><span class="m">XX MODEL</span><span class="m">66TYPE</span><span class="m">BJ RARE</span><span class="m">M3</span></div></div>
+  <div class="cd-m"><span class="tb t-p">粗利○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on mid"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥300〜¥8,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥2,000〜¥25,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★☆☆☆</div></div>
+  </div>
+  <div class="dn">ドゥニームは90年代レプリカブーム先駆者。旧オリゾンティ時代にプレミア。ビッグジョンは国産先駆け。どちらもセカストで見つけやすく仕入れ単価安い。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=DENIME+XX+MODEL+%E3%83%89%E3%82%A5%E3%83%8B%E3%83%BC%E3%83%A0+%E3%82%BB%E3%83%AB%E3%83%93%E3%83%83%E3%82%B8&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=%E3%83%89%E3%82%A5%E3%83%8B%E3%83%BC%E3%83%A0+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+</div>
+
+<!-- ======== HIGH BRAND ======== -->
+<div class="sec" data-c="h">
+<div class="sec-h"><div class="sec-ico" style="background:var(--pur-d);color:var(--pur);">👑</div><div class="sec-t">HIGH BRAND — 一撃高利益</div></div>
+
+<div class="cd" data-c="h" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">13</div>
+  <div class="cd-i"><div class="bn">ディースクエアード</div><div class="be">DSQUARED2</div>
+    <div class="ms"><span class="m">SKATER</span><span class="m">COOL GUY</span><span class="m">TEDDY</span></div></div>
+  <div class="cd-m"><span class="tb t-h">一撃◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥5,000〜¥25,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥15,000〜¥60,000+</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜7日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★☆</div></div>
+  </div>
+  <div class="dn">BUYMA男性人気No.1。定価¥70K〜¥111Kのため中古利幅◎。SKATER・COOL GUYが指名買い多。真贋判定スキル必須。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=DSQUARED2+SKATER+COOL+GUY+%E3%83%87%E3%83%8B%E3%83%A0+%E3%83%A1%E3%83%B3%E3%82%BA&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=DSQUARED2+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="h" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">14</div>
+  <div class="cd-i"><div class="bn">アミリ</div><div class="be">AMIRI MX1</div>
+    <div class="ms"><span class="m">MX1</span><span class="m">ショットガン</span><span class="m">パッチワーク</span></div></div>
+  <div class="cd-m"><span class="tb t-h">一撃◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥15,000〜¥50,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥40,000〜¥120,000+</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">1〜5日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★★</div></div>
+  </div>
+  <div class="dn">海外セレブ御用達。MX1レザーパッチワークが代表。定価¥150K〜で利幅最大級。偽物非常に多く真贋最重要。見つけると一撃。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=AMIRI+MX1+leather+patch+denim+jeans&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=AMIRI+MX1+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="h" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">15</div>
+  <div class="cd-i"><div class="bn">ヤコブコーエン</div><div class="be">JACOB COHEN J622</div>
+    <div class="ms"><span class="m">J622</span><span class="m">PW622</span><span class="m">ハラコパッチ</span></div></div>
+  <div class="cd-m"><span class="tb t-h">一撃◎</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥5,000〜¥20,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥15,000〜¥50,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★☆</div></div>
+  </div>
+  <div class="dn">イタリア高級テーラードジーンズ。ハラコパッチ・香水の香りが特徴。リサイクルショップで安値で落ちていることがあり、見つけると一撃利益大。査定員が知らないブランドの典型。</div>
+  <div class="dt">リサイクルショップの査定員が価値を知らずに安値をつけがちなブランドNo.1。見逃し厳禁</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=JACOB+COHEN+J622+%E3%83%8F%E3%83%A9%E3%82%B3%E3%83%91%E3%83%83%E3%83%81+%E3%83%87%E3%83%8B%E3%83%A0&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>実物画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=JACOB+COHEN+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="h" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">16</div>
+  <div class="cd-i"><div class="bn">サンローラン / ディーゼル</div><div class="be">SAINT LAURENT / DIESEL</div>
+    <div class="ms"><span class="m">SL D02 スキニー</span><span class="m">DS SLEENKER</span><span class="m">DS KROOLEY JoggJeans</span></div></div>
+  <div class="cd-m"><span class="tb t-h">一撃○</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">SL:¥10K〜30K / DS:¥2K〜8K</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">SL:¥25K〜60K / DS:¥5K〜20K</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜10日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">SL:★★★★★ / DS:★★☆☆☆</div></div>
+  </div>
+  <div class="dn">SLはモード×ロックの代名詞。ブラックスキニーにプレミア。DIESELはKROOLEY JoggJeansが中古で非常に回転が早い。20〜30代向けで幅広い需要。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Saint+Laurent+D02+skinny+black+denim+jeans&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>SL画像を見る</a>
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=DIESEL+KROOLEY+JoggJeans+%E3%83%87%E3%83%8B%E3%83%A0&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>DIESEL画像を見る</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=DIESEL+KROOLEY&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ売切相場</a>
+  </div>
+</div></div>
+</div>
+
+<!-- ======== NICHE ======== -->
+<div class="sec" data-c="n">
+<div class="sec-h"><div class="sec-ico" style="background:var(--blu-d);color:var(--blu);">🎯</div><div class="sec-t">NICHE & MODE — 差別化・目利き</div></div>
+
+<div class="cd" data-c="n" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">17</div>
+  <div class="cd-i"><div class="bn">A.P.C. / ヌーディージーンズ</div><div class="be">A.P.C. / NUDIE JEANS</div>
+    <div class="ms"><span class="m">Petit New Standard</span><span class="m">New Standard</span><span class="m">Grim Tim</span><span class="m">Lean Dean</span></div></div>
+  <div class="cd-m"><span class="tb t-n">差別化</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on lo"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥2,000〜¥10,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥5,000〜¥25,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">A.P.C.はカイハラ社デニム使用。リジッド未洗いが特に高値。ヒゲ・ハチノスのエイジング品も需要あり。Nudieは看板Grim Timが回しやすい。おしゃれ層に刺さる。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=A.P.C.+Petit+New+Standard+%E7%94%9F%E3%83%87%E3%83%8B%E3%83%A0+%E3%82%A8%E3%82%A4%E3%82%B8%E3%83%B3%E3%82%B0&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>A.P.C.画像</a>
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=Nudie+Jeans+Grim+Tim+%E3%83%87%E3%83%8B%E3%83%A0+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>Nudie画像</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=A.P.C.+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="n" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">18</div>
+  <div class="cd-i"><div class="bn">RRL / リゾルト</div><div class="be">RRL (DOUBLE RL) / RESOLUTE</div>
+    <div class="ms"><span class="m">RRL Slim Fit</span><span class="m">RRL Low Straight</span><span class="m">RESOLUTE 710</span><span class="m">711</span></div></div>
+  <div class="cd-m"><span class="tb t-n">差別化</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on lo"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">RRL:¥5K〜20K / RES:¥5K〜15K</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">RRL:¥15K〜50K / RES:¥12K〜30K</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">3〜10日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★☆</div></div>
+  </div>
+  <div class="dn">RRLはラルフローレンのヴィンテージライン。定価が非常に高く熱狂的ファンのため高単価販売可能。リゾルト710は日本デニム界の重鎮・林芳亨氏のブランド。レングス豊富で日本人体型に合い即売れしやすい。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=RRL+Double+RL+selvedge+denim+jeans+%E3%83%87%E3%83%8B%E3%83%A0&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>RRL画像</a>
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=RESOLUTE+710+%E3%83%AA%E3%82%BE%E3%83%AB%E3%83%88+%E3%83%87%E3%83%8B%E3%83%A0+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>RESOLUTE画像</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=RRL+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="n" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">19</div>
+  <div class="cd-i"><div class="bn">コモリ / クロ</div><div class="be">COMOLI / KURO</div>
+    <div class="ms"><span class="m">COMOLI 5Pデニム</span><span class="m">タックパンツ</span><span class="m">KURO Graphite</span></div></div>
+  <div class="cd-m"><span class="tb t-n">差別化</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b on"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">COM:¥10K〜25K / KURO:¥3K〜10K</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">COM:¥20K〜50K / KURO:¥8K〜20K</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">COM:非常に速い / KURO:7〜14日</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★★★</div></div>
+  </div>
+  <div class="dn">COMOLIはメルカリ売却速度が最速クラス。デニムジャケットも高需要。仕入れ機会が極めて少ないのが難点。KUROは洗練された加工技術で感度の高い層に刺さる。競合少なく利益率安定。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=COMOLI+%E3%83%87%E3%83%8B%E3%83%A0+5%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%91%E3%83%B3%E3%83%84&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>COMOLI画像</a>
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=KURO+Graphite+%E3%83%87%E3%83%8B%E3%83%A0+%E3%82%B8%E3%83%BC%E3%83%B3%E3%82%BA&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>KURO画像</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=COMOLI+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ相場</a>
+  </div>
+</div></div>
+
+<div class="cd" data-c="n" onclick="tg(this)"><div class="cd-top">
+  <div class="rk">20</div>
+  <div class="cd-i"><div class="bn">TCB / JBJ / ダルチザン / DENHAM</div><div class="be">TCB / JAPAN BLUE / STUDIO D'ARTISAN / DENHAM</div>
+    <div class="ms"><span class="m">TCB 50's</span><span class="m">JBJ J201</span><span class="m">SD-101</span><span class="m">RAZOR</span></div></div>
+  <div class="cd-m"><span class="tb t-n">差別化</span><div class="bs"><div class="b on"></div><div class="b on"></div><div class="b on lo"></div><div class="b"></div><div class="b"></div></div></div>
+  <div class="chv">▼</div>
+</div><div class="cd-d">
+  <div class="ds">
+    <div class="st"><div class="sl">仕入れ目安</div><div class="sv">¥2,000〜¥12,000</div></div>
+    <div class="st"><div class="sl">販売価格帯</div><div class="sv">¥5,000〜¥25,000</div></div>
+    <div class="st"><div class="sl">回転速度</div><div class="sv">14日〜（指名買い待ち）</div></div>
+    <div class="st"><div class="sl">仕入れ難易度</div><div class="sv">★★★☆☆</div></div>
+  </div>
+  <div class="dn">いずれも玄人向け。TCB 50'sは501XX復刻文脈で指名買い。JBJ J201は手頃で万人向け。ダルチザンSD-101は刺さる客に強い。DENHAMはRAZOR代表、ハサミロゴで判別容易。</div>
+  <div class="link-row">
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=TCB+Jeans+50%27s+%E3%83%87%E3%83%8B%E3%83%A0+%E8%89%B2%E8%90%BD%E3%81%A1&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>TCB画像</a>
+    <a class="lbtn lbtn-img" href="https://www.google.com/search?q=DENHAM+RAZOR+%E3%83%87%E3%83%8B%E3%83%A0+%E3%83%8F%E3%82%B5%E3%83%9F&tbm=isch" target="_blank" rel="noopener"><span class="lbtn-ico">📷</span>DENHAM画像</a>
+    <a class="lbtn lbtn-mer" href="https://jp.mercari.com/search?keyword=STUDIO+DARTISAN+%E3%83%87%E3%83%8B%E3%83%A0&status=sold_out&sort=created_time&order=desc" target="_blank" rel="noopener"><span class="lbtn-ico">🔴</span>メルカリ相場</a>
+  </div>
+</div></div>
+</div>
+
+<!-- ===== TIPS ===== -->
+<div class="tips">
+  <h3>PROFIT MAXIMIZER TIPS</h3>
+  <div class="tip"><strong>ディテール記載が最大の武器</strong>：Levi'sはボタン裏工場コード・赤耳・BIG Eを正確に記載するだけで閲覧数と価格が跳ね上がる。</div>
+  <div class="tip"><strong>エイジング写真が売上を左右</strong>：「ヒゲ」「ハチノス」「アタリ」の経年変化が価値になる珍しい商材。自然光撮影、タグ・セルビッジの接写は必須。</div>
+  <div class="tip"><strong>段階的に攻める</strong>：初心者はLevi's/EDWIN/Lee/Wranglerで回転と相場感を掴んでからEVISU・桃太郎・SAMURAIに広げる方が事故りにくい。</div>
+  <div class="tip"><strong>査定員が知らないブランドを狙う</strong>：JACOB COHEN・RRL・RESOLUTE・COMOLIは査定員の知識不足で安値がつきやすく利幅最大。</div>
+  <div class="tip"><strong>売れるサイズ帯</strong>：W30〜W34が最速回転。W28以下やW36以上はニッチだがブランドによりマニアが高値で買う場合あり。</div>
+  <div class="tip"><strong>📷 画像ボタンの活用法</strong>：各カードの「実物画像を見る」で色落ちや加工の実物を確認。店舗で見つけた時に画像と照合して即判断できるようにしておく。</div>
+</div>
+
+<div class="footer">
+  ※ 価格帯は2025〜2026年のメルカリ・ヤフオク・Aucfan等の取引実績に基づく目安<br>
+  ※ 仕入れ先：セカンドストリート・トレファク・ハードオフ等のリユース店を想定<br>
+  ※ 📷画像ボタン→Google画像検索 / 🔴メルカリ→売切れ品の実売相場 / 📊Aucfan→オークション落札相場<br>
+  Updated: 2026.04 v3
+</div>
+
+</div>
+
+<script>
+function tg(c){c.classList.toggle('open');}
+function fa(){document.querySelectorAll('.sec').forEach(s=>s.style.display='');document.querySelectorAll('.cd').forEach(c=>c.style.display='');sf(0);}
+function fc(c){document.querySelectorAll('.sec').forEach(s=>{s.style.display=s.dataset.c===c?'':'none';});sf(['r','p','h','n'].indexOf(c)+1);}
+function sf(i){document.querySelectorAll('.fbtn').forEach((b,j)=>{b.classList.toggle('on',j===i);});}
+</script>
+</body>
+</html>

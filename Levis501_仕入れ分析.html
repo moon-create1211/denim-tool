@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Levi's 501 仕入れ分析</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap');
+
+  :root {
+    --navy: #0d1b2a;
+    --denim: #1b4f8a;
+    --indigo: #2a5caa;
+    --denim-light: #4a90d9;
+    --denim-pale: #e8f0fa;
+    --gold: #c9922a;
+    --gold-light: #f5e6c8;
+    --green: #1a7a3f;
+    --green-light: #e6f5ec;
+    --red: #b52a1a;
+    --red-light: #fdecea;
+    --yellow: #8a6a00;
+    --yellow-light: #fffbe6;
+    --bg: #f0f4fa;
+    --card: #ffffff;
+    --text: #0d1b2a;
+    --text-muted: #5a6a7a;
+    --border: #dce6f0;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+    padding-bottom: 40px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--denim) 60%, var(--indigo) 100%);
+    padding: 20px 16px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: 20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .header-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+  }
+  .header-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* NAV TABS */
+  .tabs {
+    display: flex;
+    background: var(--navy);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 11px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    color: #ffffff;
+    border-bottom-color: var(--gold);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 12px 12px 0; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    border: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--denim);
+    flex-shrink: 0;
+  }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .kpi {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 12px 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .kpi-label { font-size: 10px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+  .kpi-val { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+  .kpi-sub { font-size: 9px; color: var(--text-muted); margin-top: 1px; }
+  .kpi.green { border-left: 3px solid var(--green); }
+  .kpi.green .kpi-val { color: var(--green); }
+  .kpi.gold { border-left: 3px solid var(--gold); }
+  .kpi.gold .kpi-val { color: var(--gold); }
+  .kpi.blue { border-left: 3px solid var(--denim); }
+  .kpi.red { border-left: 3px solid var(--red); }
+  .kpi.red .kpi-val { color: var(--red); }
+
+  /* SIGNAL PILLS */
+  .signal-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .signal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 70px;
+    padding: 10px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .signal .sig-val { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 2px; }
+  .signal.s-green { background: var(--green-light); color: var(--green); }
+  .signal.s-blue { background: var(--denim-pale); color: var(--denim); }
+  .signal.s-yellow { background: var(--yellow-light); color: var(--yellow); }
+  .signal.s-red { background: var(--red-light); color: var(--red); }
+
+  /* HORIZONTAL BAR CHART */
+  .bar-group { margin-bottom: 8px; }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+    font-size: 11px;
+  }
+  .bar-name { color: var(--text); font-weight: 500; flex: 1; }
+  .bar-count { color: var(--text-muted); font-size: 10px; margin: 0 6px; }
+  .bar-val { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--navy); font-size: 11px; min-width: 40px; text-align: right; }
+  .bar-track {
+    height: 7px;
+    background: var(--denim-pale);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--indigo), var(--denim-light));
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-fill.gold { background: linear-gradient(90deg, var(--gold), #f0b840); }
+  .bar-fill.green { background: linear-gradient(90deg, var(--green), #2ecc71); }
+
+  /* STACKED BAR */
+  .stacked-track {
+    height: 10px;
+    background: var(--denim-pale);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 3px;
+  }
+  .stacked-seg { height: 100%; transition: width 0.8s; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .data-table th {
+    background: var(--navy);
+    color: rgba(255,255,255,0.85);
+    padding: 8px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    position: sticky;
+    top: 42px;
+  }
+  .data-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:nth-child(even) td { background: var(--bg); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .b-green { background: var(--green-light); color: var(--green); }
+  .b-blue { background: var(--denim-pale); color: var(--denim); }
+  .b-yellow { background: var(--yellow-light); color: var(--yellow); }
+  .b-red { background: var(--red-light); color: var(--red); }
+  .b-gray { background: #eee; color: #555; }
+
+  /* ITEM CARD */
+  .item-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .item-card.strong {
+    border-left: 3px solid var(--green);
+    background: linear-gradient(90deg, var(--green-light) 0%, var(--card) 60%);
+  }
+  .item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 5px; line-height: 1.3; }
+  .item-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .item-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .item-link {
+    display: block;
+    text-align: center;
+    padding: 7px;
+    background: var(--denim);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* FILTER */
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    scrollbar-width: none;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn.active {
+    background: var(--denim);
+    border-color: var(--denim);
+    color: white;
+  }
+
+  /* INSIGHT BOX */
+  .insight {
+    background: linear-gradient(135deg, #fff9e6 0%, #fffcf0 100%);
+    border: 1px solid #f0d080;
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .insight-title { font-weight: 700; color: var(--gold); font-size: 11px; margin-bottom: 4px; }
+  .insight li { margin-left: 14px; margin-bottom: 2px; }
+
+  /* SIZE GRID */
+  .size-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .size-cell {
+    background: var(--denim-pale);
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+  }
+  .size-cell .sz { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--navy); }
+  .size-cell .sc { font-size: 9px; color: var(--text-muted); }
+  .size-cell .sp { font-size: 10px; font-weight: 700; color: var(--denim); }
+
+  /* SCROLLABLE TABLE WRAPPER */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -2px; }
+
+  /* MINI LEGEND */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  .mt8 { margin-top: 8px; }
+  .mb0 { margin-bottom: 0; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--denim);
+    margin: 14px 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">せどり分析レポート</div>
+  <div class="header-title">Levi's 501<br>メルカリ 販売データ</div>
+  <div class="header-sub">対象: ¥15,000以下 全1,506件</div>
+  <div class="header-badge">📅 最新データ分析</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('summary')">📊 サマリー</div>
+  <div class="tab" onclick="showTab('price')">💴 価格帯</div>
+  <div class="tab" onclick="showTab('category')">📂 分類</div>
+  <div class="tab" onclick="showTab('size')">📐 サイズ</div>
+  <div class="tab" onclick="showTab('items')">⭐ 推奨品</div>
+</div>
+
+<!-- ===== SUMMARY ===== -->
+<div id="tab-summary" class="section active">
+
+  <div class="kpi-grid">
+    <div class="kpi blue">
+      <div class="kpi-label">対象件数</div>
+      <div class="kpi-val">1,506</div>
+      <div class="kpi-sub">〜¥15,000</div>
+    </div>
+    <div class="kpi gold">
+      <div class="kpi-label">平均落札価格</div>
+      <div class="kpi-val">¥5,789</div>
+      <div class="kpi-sub">中央値 ¥5,000</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">◎ 強く推奨</div>
+      <div class="kpi-val">194件</div>
+      <div class="kpi-sub">全体の 12.9%</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">✕ 非推奨</div>
+      <div class="kpi-val">221件</div>
+      <div class="kpi-sub">スルー推奨</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>仕入れ判断 分布</div>
+    <div class="signal-row">
+      <div class="signal s-green"><div class="sig-val">194</div>◎ 強推奨</div>
+      <div class="signal s-blue"><div class="sig-val">681</div>○ 推奨</div>
+      <div class="signal s-yellow"><div class="sig-val">410</div>△ 要確認</div>
+      <div class="signal s-red"><div class="sig-val">221</div>✕ 非推奨</div>
+    </div>
+    <div class="stacked-track">
+      <div class="stacked-seg" style="width:12.9%;background:#1a7a3f;"></div>
+      <div class="stacked-seg" style="width:45.2%;background:#2a5caa;"></div>
+      <div class="stacked-seg" style="width:27.2%;background:#c9922a;"></div>
+      <div class="stacked-seg" style="width:14.7%;background:#b52a1a;"></div>
+    </div>
+    <div class="legend mt8">
+      <div class="legend-item"><div class="legend-dot" style="background:#1a7a3f"></div>強推奨</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2a5caa"></div>推奨</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c9922a"></div>要確認</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#b52a1a"></div>非推奨</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">💡 仕入れ戦略インサイト</div>
+    <ul>
+      <li><strong>USA製×良品状態×¥8,000以下</strong>が最高ROI（推奨率29%）</li>
+      <li>LVC/ヴィンテージ年代別は推奨率<strong>34%</strong>と最高水準</li>
+      <li><strong>¥5,001〜8,000</strong>帯が件数・推奨数ともに最多で狙い目</li>
+      <li>W30〜34が最多流通、W38〜42は希少で高値傾向</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>製造国 別 平均価格</div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">USA製</span><span class="bar-count">389件</span><span class="bar-val">¥7,258</span></div>
+      <div class="bar-track"><div class="bar-fill gold" style="width:100%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">日本製</span><span class="bar-count">24件</span><span class="bar-val">¥7,439</span></div>
+      <div class="bar-track"><div class="bar-fill gold" style="width:100%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">フィリピン製</span><span class="bar-count">53件</span><span class="bar-val">¥5,327</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:73%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">メキシコ製</span><span class="bar-count">59件</span><span class="bar-val">¥4,747</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:65%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">不明</span><span class="bar-count">981件</span><span class="bar-val">¥5,253</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:72%"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>商品状態 別 件数</div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">目立った傷や汚れなし</span><span class="bar-count">715件</span></div>
+      <div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">やや傷や汚れあり</span><span class="bar-count">436件</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:61%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">傷や汚れあり</span><span class="bar-count">201件</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,#c9922a,#f0b840)"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">未使用に近い</span><span class="bar-count">81件</span></div>
+      <div class="bar-track"><div class="bar-fill green" style="width:11%"></div></div>
+    </div>
+    <div class="bar-group">
+      <div class="bar-label"><span class="bar-name">新品、未使用</span><span class="bar-count">53件</span></div>
+      <div class="bar-track"><div class="bar-fill green" style="width:7%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PRICE ===== -->
+<div id="tab-price" class="section">
+  <div class="insight">
+    <div class="insight-title">💴 価格帯分析のポイント</div>
+    <ul>
+      <li><strong>¥5,001〜8,000</strong>：推奨数71件で最多。USA製良品が多く狙い目</li>
+      <li><strong>¥3,001〜5,000</strong>：大量流通（396件）、廉価仕入れチャンス</li>
+      <li><strong>¥10,001以上</strong>：◎推奨は0件。仕入れコストが高く回収困難</li>
+    </ul>
+  </div>
+
+  <div class="section-label">価格帯別 詳細</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>価格帯 × 件数 × ◎推奨</div>
+    <div id="price-bars"></div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>価格帯</th>
+          <th>件数</th>
+          <th>割合</th>
+          <th>平均</th>
+          <th>◎推奨</th>
+        </tr>
+      </thead>
+      <tbody id="price-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== CATEGORY ===== -->
+<div id="tab-category" class="section">
+  <div class="insight">
+    <div class="insight-title">📂 カテゴリ戦略</div>
+    <ul>
+      <li><strong>ヴィンテージ年代別・LVC</strong>：◎率34%。タイトル確認で製造年を必ずチェック</li>
+      <li><strong>USA製インディゴ</strong>：◎率27%。安定した仕入れ先</li>
+      <li><strong>ブラック・ホワイト</strong>：差別化できる希少色、◎率は低めだが需要安定</li>
+      <li><strong>リペア/カスタム</strong>：ノークレーム品多く仕入れリスク高め</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>カテゴリ別 ◎推奨率ランキング</div>
+    <div id="cat-bars"></div>
+  </div>
+
+  <div class="section-label">製造国別 推奨率</div>
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>製造国 × ◎推奨率</div>
+    <div id="country-bars"></div>
+  </div>
+</div>
+
+<!-- ===== SIZE ===== -->
+<div id="tab-size" class="section">
+  <div class="insight">
+    <div class="insight-title">📐 サイズ戦略</div>
+    <ul>
+      <li><strong>W30〜34</strong>：流通量最多。回転が速くリスク低め</li>
+      <li><strong>W38〜42</strong>：流通少なく希少。プレミア価格期待できる</li>
+      <li><strong>W28〜29</strong>：平均価格低め、女性需要もあり</li>
+      <li>Lサイズは32〜34が最多流通</li>
+    </ul>
+  </div>
+
+  <div class="section-label">Wサイズ別 データ（出現数Top12）</div>
+  <div class="size-grid" id="size-grid"></div>
+
+  <div class="section-label">Wサイズ別 平均価格</div>
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Wサイズ × 平均価格</div>
+    <div id="size-bars"></div>
+  </div>
+</div>
+
+<!-- ===== ITEMS ===== -->
+<div id="tab-items" class="section">
+  <div class="filter-row" id="item-filters">
+    <div class="filter-btn active" onclick="filterItems('all', this)">すべて (194)</div>
+    <div class="filter-btn" onclick="filterItems('vintage', this)">ヴィンテージ</div>
+    <div class="filter-btn" onclick="filterItems('lvc', this)">LVC/復刻</div>
+    <div class="filter-btn" onclick="filterItems('usa', this)">USA製</div>
+    <div class="filter-btn" onclick="filterItems('cheap', this)">〜¥3,000</div>
+  </div>
+  <div id="item-list"></div>
+</div>
+
+<script>
+const DATA = {
+  price_data: [
+    {tier:"〜3,000円",count:399,avg:2368,rec:34},
+    {tier:"3,001〜5,000円",count:396,avg:4141,rec:49},
+    {tier:"5,001〜8,000円",count:372,avg:6476,rec:71},
+    {tier:"8,001〜10,000円",count:157,avg:9232,rec:40},
+    {tier:"10,001〜12,000円",count:76,avg:11152,rec:0},
+    {tier:"12,001〜15,000円",count:106,avg:13462,rec:0}
+  ],
+  cat_data: [
+    {cat:"LVC/復刻",count:224,avg:7614,rate:33.9},
+    {cat:"ヴィンテージ年代別",count:215,avg:6904,rate:34.0},
+    {cat:"USA製インディゴ",count:134,avg:7262,rate:27.6},
+    {cat:"ホワイト",count:35,avg:4522,rate:8.6},
+    {cat:"メキシコ製",count:59,avg:4747,rate:8.5},
+    {cat:"ブラック",count:150,avg:5828,rate:3.3},
+    {cat:"スタンダード",count:703,avg:4691,rate:0.0},
+    {cat:"リペア/カスタム",count:45,avg:4989,rate:0.0}
+  ],
+  country_data: [
+    {country:"USA製",count:389,avg:7258,rate:29.3},
+    {country:"日本製",count:24,avg:7439,rate:8.3},
+    {country:"フィリピン製",count:53,avg:5327,rate:11.3},
+    {country:"メキシコ製",count:59,avg:4747,rate:8.5},
+    {country:"不明",count:981,avg:5253,rate:6.8}
+  ],
+  size_data: [
+    {w:32,count:149,avg:6177,min:800},
+    {w:34,count:143,avg:6241,min:700},
+    {w:36,count:131,avg:6596,min:1500},
+    {w:33,count:125,avg:6391,min:1000},
+    {w:30,count:98,avg:5002,min:800},
+    {w:31,count:81,avg:5845,min:900},
+    {w:38,count:57,avg:6203,min:1700},
+    {w:29,count:41,avg:4766,min:880},
+    {w:28,count:37,avg:4148,min:300},
+    {w:40,count:22,avg:5876,min:2100},
+    {w:35,count:18,avg:6456,min:2500},
+    {w:42,count:17,avg:6929,min:2200}
+  ],
+  top_items: [
+    {title:"リーバイス　501xx 濃い緑",price:1500,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"不明",url:"https://jp.mercari.com/item/m47879443005"},
+    {title:"リーバイス　501 XX　W30 L32",price:1700,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"不明",url:"https://jp.mercari.com/item/m60261551235"},
+    {title:"90s アメリカ製 リーバイス　501 W29 グレー",price:1700,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"USA製",url:"https://jp.mercari.com/item/m14549455528"},
+    {title:"90s リーバイス 501 ブラック W28 アメリカ製 後染",price:1900,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"USA製",url:"https://jp.mercari.com/item/m51156009887"},
+    {title:"90s USA製 リーバイス501 6501 デニムパンツ ボタン裏5...",price:2000,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"USA製",url:"https://jp.mercari.com/item/m35403137704"},
+    {title:"90s ユーロLevi's501 ブラックデニム W32 後染め UK",price:2100,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"不明",url:"https://jp.mercari.com/item/m62117306334"},
+    {title:"リーバイス 501 W31 L32 メキシコ製 デニムジーンズ 00s",price:2200,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"メキシコ製",url:"https://jp.mercari.com/item/m68538862711"},
+    {title:"90s USA製 リーバイス501 レディース W25",price:2300,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"USA製",url:"https://jp.mercari.com/item/m20553322832"},
+    {title:"Levi's 501 W30 アメリカ製 ブルー 刻印55",price:2300,cond:"目立った傷や汚れなし",cat:"USA製インディゴ",country:"USA製",url:"https://jp.mercari.com/item/m95624465881"},
+    {title:"ビンテージ　リーバイス501xx メンズ　デニムジーンズ W29",price:2337,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"不明",url:"https://jp.mercari.com/item/m39167693304"},
+    {title:"90s★Levi's 501 ユーロ ハンガリー製",price:2500,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"不明",url:"https://jp.mercari.com/item/m83346262445"},
+    {title:"USA製 ヴィンテージ 501 バギー ホワイト デニム",price:2500,cond:"目立った傷や汚れなし",cat:"ホワイト",country:"USA製",url:"https://jp.mercari.com/item/m29644170931"},
+    {title:"90s LEVI'S 501 usa製 耳なしヴィンテージ デニム",price:2500,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"USA製",url:"https://jp.mercari.com/item/m66906789782"},
+    {title:"リーバイス USA製 80s",price:2500,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"USA製",url:"https://jp.mercari.com/item/m74564770217"},
+    {title:"リーバイス501 W29 L32 Made in USA",price:2500,cond:"目立った傷や汚れなし",cat:"USA製インディゴ",country:"USA製",url:"https://jp.mercari.com/item/m92820889164"},
+    {title:"リーバイス 501xx W28 USA製 ボタン裏552",price:2600,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"USA製",url:"https://jp.mercari.com/item/m17220616666"},
+    {title:"93年製リーバイス501 31×34 90s ボタン裏689",price:2600,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"不明",url:"https://jp.mercari.com/item/m98941545881"},
+    {title:"美色 99年製 W28 levi's 501 vtg アメリカ製",price:2600,cond:"目立った傷や汚れなし",cat:"USA製インディゴ",country:"USA製",url:"https://jp.mercari.com/item/m50779135006"},
+    {title:"Levi's501XX リーバイス メキシコ製 カラーデニム",price:2500,cond:"目立った傷や汚れなし",cat:"LVC/復刻",country:"メキシコ製",url:"https://jp.mercari.com/item/m94411985816"},
+    {title:"90s フランス製 LEVIS 501 デニム パンツ 31 黒",price:2500,cond:"目立った傷や汚れなし",cat:"ヴィンテージ年代別",country:"不明",url:"https://jp.mercari.com/item/m13972970260"}
+  ]
+};
+
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function fmt(n) { return '¥'+n.toLocaleString(); }
+
+// PRICE BARS
+function buildPriceBars() {
+  const el = document.getElementById('price-bars');
+  const maxCount = Math.max(...DATA.price_data.map(d=>d.count));
+  DATA.price_data.forEach(d => {
+    const pct = (d.count/maxCount*100).toFixed(0);
+    const recPct = d.rec > 0 ? `<span style="color:var(--green);font-weight:700;font-size:10px;margin-left:6px">◎${d.rec}件</span>` : '';
+    el.innerHTML += `<div class="bar-group">
+      <div class="bar-label">
+        <span class="bar-name">${d.tier}</span>
+        <span class="bar-count">${d.count}件</span>
+        <span class="bar-val">${fmt(d.avg)}${recPct}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+}
+
+function buildPriceTable() {
+  const tb = document.getElementById('price-table');
+  DATA.price_data.forEach(d => {
+    const pct = (d.count/1506*100).toFixed(1);
+    const recBadge = d.rec > 0 ? `<span class="badge b-green">◎${d.rec}</span>` : `<span class="badge b-gray">0</span>`;
+    tb.innerHTML += `<tr>
+      <td style="font-weight:600;font-size:10px">${d.tier}</td>
+      <td style="text-align:center">${d.count}</td>
+      <td style="text-align:center">${pct}%</td>
+      <td style="text-align:center;font-weight:700">${fmt(d.avg)}</td>
+      <td style="text-align:center">${recBadge}</td>
+    </tr>`;
+  });
+}
+
+// CAT BARS
+function buildCatBars() {
+  const el = document.getElementById('cat-bars');
+  const sorted = [...DATA.cat_data].sort((a,b)=>b.rate-a.rate);
+  sorted.forEach(d => {
+    const col = d.rate >= 25 ? 'gold' : d.rate >= 10 ? '' : '';
+    el.innerHTML += `<div class="bar-group">
+      <div class="bar-label">
+        <span class="bar-name">${d.cat}</span>
+        <span class="bar-count">${d.count}件</span>
+        <span class="bar-val">${d.rate}%</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill ${col}" style="width:${d.rate>0?Math.max(d.rate/34*100,3):2}%"></div></div>
+    </div>`;
+  });
+}
+
+function buildCountryBars() {
+  const el = document.getElementById('country-bars');
+  const sorted = [...DATA.country_data].sort((a,b)=>b.rate-a.rate);
+  sorted.forEach(d => {
+    el.innerHTML += `<div class="bar-group">
+      <div class="bar-label">
+        <span class="bar-name">${d.country}</span>
+        <span class="bar-count">${d.count}件</span>
+        <span class="bar-val">${d.rate}%</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill gold" style="width:${d.rate/29.3*100}%"></div></div>
+    </div>`;
+  });
+}
+
+// SIZE
+function buildSizeGrid() {
+  const el = document.getElementById('size-grid');
+  DATA.size_data.forEach(d => {
+    el.innerHTML += `<div class="size-cell">
+      <div class="sz">W${d.w}</div>
+      <div class="sc">${d.count}件</div>
+      <div class="sp">${fmt(d.avg)}</div>
+    </div>`;
+  });
+}
+
+function buildSizeBars() {
+  const el = document.getElementById('size-bars');
+  const sorted = [...DATA.size_data].sort((a,b)=>a.w-b.w);
+  const maxAvg = Math.max(...sorted.map(d=>d.avg));
+  sorted.forEach(d => {
+    el.innerHTML += `<div class="bar-group">
+      <div class="bar-label">
+        <span class="bar-name">W${d.w}</span>
+        <span class="bar-count">${d.count}件</span>
+        <span class="bar-val">${fmt(d.avg)}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${d.avg/maxAvg*100}%"></div></div>
+    </div>`;
+  });
+}
+
+// ITEMS
+let allItems = DATA.top_items;
+function renderItems(items) {
+  const el = document.getElementById('item-list');
+  if (items.length === 0) { el.innerHTML = '<div class="card" style="text-align:center;color:var(--text-muted)">該当なし</div>'; return; }
+  el.innerHTML = items.map(item => {
+    const catBadge = item.cat.includes('LVC') ? 'b-green' : item.cat.includes('ヴィン') ? 'b-blue' : item.cat.includes('USA') ? 'b-yellow' : 'b-gray';
+    const countryBadge = item.country === 'USA製' ? 'b-yellow' : 'b-gray';
+    return `<div class="item-card strong">
+      <div class="item-title">${item.title}</div>
+      <div class="item-meta">
+        <span class="badge ${catBadge}">${item.cat}</span>
+        <span class="badge ${countryBadge}">${item.country}</span>
+        <span class="badge b-gray">${item.cond}</span>
+      </div>
+      <div class="item-price">${fmt(item.price)}</div>
+      <a class="item-link" href="${item.url}" target="_blank">🔗 メルカリで確認</a>
+    </div>`;
+  }).join('');
+}
+
+function filterItems(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let filtered = allItems;
+  if (type === 'vintage') filtered = allItems.filter(i=>i.cat.includes('ヴィン'));
+  else if (type === 'lvc') filtered = allItems.filter(i=>i.cat.includes('LVC'));
+  else if (type === 'usa') filtered = allItems.filter(i=>i.country==='USA製');
+  else if (type === 'cheap') filtered = allItems.filter(i=>i.price<=3000);
+  renderItems(filtered);
+}
+
+// INIT
+buildPriceBars();
+buildPriceTable();
+buildCatBars();
+buildCountryBars();
+buildSizeGrid();
+buildSizeBars();
+renderItems(allItems);
+</script>
+</body>
+</html>
