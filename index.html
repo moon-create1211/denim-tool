@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="デニムツール">
+<link rel="manifest" href="manifest.json">
+<title>デニムツール</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+:root {
+  --bg: #0d0d1a;
+  --surface: #16162a;
+  --surface2: #1e1e35;
+  --accent: #4f8ef7;
+  --accent2: #e05252;
+  --accent3: #f0a500;
+  --text: #e8e8f0;
+  --text-muted: #7878a0;
+  --border: rgba(255,255,255,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 背景の装飾 */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(79,142,247,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(224,82,82,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+/* ヘッダー */
+.header {
+  padding: 48px 0 32px;
+  text-align: center;
+}
+
+.header-badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  border: 1px solid rgba(79,142,247,0.4);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.header h1 span {
+  background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* セクション */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+/* ツールカード */
+.tools-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.tool-card {
+  display: block;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.tool-card:active {
+  transform: scale(0.98);
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 16px 16px 0 0;
+}
+
+.tool-card.levis::before { background: linear-gradient(90deg, #e05252, #f0a500); }
+.tool-card.edwin::before { background: linear-gradient(90deg, #4f8ef7, #7c3aed); }
+.tool-card.lee::before   { background: linear-gradient(90deg, #10b981, #4f8ef7); }
+.tool-card.ranking::before { background: linear-gradient(90deg, #f0a500, #e05252); }
+
+.tool-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tool-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.tool-card.levis .tool-icon  { background: rgba(224,82,82,0.15); }
+.tool-card.edwin .tool-icon  { background: rgba(79,142,247,0.15); }
+.tool-card.lee .tool-icon    { background: rgba(16,185,129,0.15); }
+.tool-card.ranking .tool-icon { background: rgba(240,165,0,0.15); }
+
+.tool-info { flex: 1; min-width: 0; }
+
+.tool-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tool-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tool-arrow {
+  color: var(--text-muted);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* 統計バー */
+.stats {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+.stat-item {}
+.stat-num {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* フッター */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* PWAインストールバナー */
+.pwa-banner {
+  background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(167,139,250,0.15));
+  border: 1px solid rgba(79,142,247,0.3);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pwa-icon { font-size: 24px; flex-shrink: 0; }
+
+.pwa-text { flex: 1; }
+.pwa-text strong { font-size: 13px; display: block; margin-bottom: 2px; }
+.pwa-text span { font-size: 11px; color: var(--text-muted); }
+
+.pwa-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+#pwa-banner { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-badge">Resale Intelligence</div>
+    <h1>デニム<span>ツール</span></h1>
+    <p>せどり仕入れ判断・相場分析システム</p>
+  </div>
+
+  <!-- PWAインストール誘導 -->
+  <div class="pwa-banner" id="pwa-banner">
+    <div class="pwa-icon">📲</div>
+    <div class="pwa-text">
+      <strong>ホーム画面に追加</strong>
+      <span>アプリとして使えます</span>
+    </div>
+    <button class="pwa-btn" id="pwa-install-btn">追加</button>
+  </div>
+
+  <!-- 統計 -->
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">ツール数</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">ブランド</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">無料</div>
+    </div>
+  </div>
+
+  <!-- 仕入れ判断ツール -->
+  <div class="section-label">仕入れ判断ツール</div>
+  <div class="tools-grid">
+
+    <a class="tool-card levis" href="Levis501_仕入れ判断ツール.html">
+      <div class="tool-card-inner">
+        <div class="tool-icon">👖</div>
+        <div class="tool-info">
+          <div class="tool-name">Levi's 501</div>
+          <div class="tool-desc">仕入れ価格・利益計算・市場相場判断</div>
+        </div>
+        <div class="tool-arrow">›</div>
+      </div>
+    </a>
+
+    <a class="tool-card edwin" href="EDWIN_デニム分析_v5_1.html">
+      <div class="tool-card-inner">
+        <div class="tool-icon">🔵</div>
+        <div class="tool-info">
+          <div class="tool-name">EDWIN</div>
+          <div class="tool-desc">モデル別分析・仕入れ判断システム</div>
+        </div>
+        <div class="tool-arrow">›</div>
+      </div>
+    </a>
+
+    <a class="tool-card lee" href="LEE_デニム分析.html">
+      <div class="tool-card-inner">
+        <div class="tool-icon">🟢</div>
+        <div class="tool-info">
+          <div class="tool-name">LEE</div>
+          <div class="tool-desc">仕入れ判断・相場分析</div>
+        </div>
+        <div class="tool-arrow">›</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- 相場分析ツール -->
+  <div class="section-label">相場・ランキング</div>
+  <div class="tools-grid">
+
+    <a class="tool-card ranking" href="デニム再販ランキングv3.html">
+      <div class="tool-card-inner">
+        <div class="tool-icon">🏆</div>
+        <div class="tool-info">
+          <div class="tool-name">デニム再販ランキング</div>
+          <div class="tool-desc">ブランド別・利益率ランキング一覧</div>
+        </div>
+        <div class="tool-arrow">›</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    Moon's Denim Resale Tools<br>
+    GitHub Pages · PWA対応
+  </div>
+
+</div>
+
+<script>
+// PWAインストール促進
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwa-banner').style.display = 'flex';
+});
+
+document.getElementById('pwa-install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwa-banner').style.display = 'none';
+});
+
+window.addEventListener('appinstalled', () => {
+  document.getElementById('pwa-banner').style.display = 'none';
+});
+</script>
+</body>
+</html>
